@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Domain Reputation Scoring API Sample</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+
+        var url = "https://api.threatintelligenceplatform.com/v1/reputation";
+
+        var apiKey = "Your domain reputation API key";
+        var domain = "threatintelligenceplatform.com";
+
+        $(function() {
+            $.ajax(
+                {
+                    url: url,
+                    dataType: "json",
+                    data: {
+                        apiKey: apiKey,
+                        domainName: domain
+                    },
+                    success: function(response) {
+                        $("#json").append(JSON.stringify(response, null, 2));
+                    },
+                    error: function(e) {
+                        $("#error").append(e.responseText);
+                    }
+                }
+            );
+        });
+
+    </script>
+</head>
+
+<body>
+    <div id="error"></div>
+    <pre id="json"></pre>
+</body>
+
+</html>
