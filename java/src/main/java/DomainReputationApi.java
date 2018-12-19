@@ -61,9 +61,9 @@ public class DomainReputationApi
     private String buildUrl(String domain) throws IOException
     {
         return DomainReputationApi.BASE_URL
-                + "?apiKey=" + URLEncoder.encode(getApiKey(), "UTF-8")
-                + "&domainName=" + URLEncoder.encode(domain, "UTF-8")
-                + "&mode=full";
+               + "?apiKey=" + URLEncoder.encode(getApiKey(), "UTF-8")
+               + "&domainName=" + URLEncoder.encode(domain, "UTF-8")
+               + "&mode=full";
     }
 
     private String getApiKey()
