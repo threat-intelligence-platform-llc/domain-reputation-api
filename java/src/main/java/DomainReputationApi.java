@@ -1,42 +1,36 @@
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.*;
 
-
-public class DomainReputationApi {
+public class DomainReputationApi
+{
+    private static final String BASE_URL =
+            "https://api.threatintelligenceplatform.com/v1/reputation";
 
     private String apiKey;
 
-    protected static final String BASE_URL =
-            "https://api.threatintelligenceplatform.com/v1/reputation";
-
-    public DomainReputationApi(String apiKey) {
-        this.apiKey = apiKey;
-    }
-
-
-    public static void main(String[] args) {
-        DomainReputationApi rss = new DomainReputationApi("Your-API-key");
+    public static void main(String[] args)
+    {
+        DomainReputationApi rss = new DomainReputationApi();
+        rss.setApiKey("your domain reputation api key");
 
         try {
-            String response = rss.sendGet();
-            System.out.println(rss.prettyJson(response));
+            System.out.println(rss.sendGet("threatintelligenceplatform.com"));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
     }
 
-    public String sendGet() throws Exception
+    public String sendGet(String domain) throws Exception
     {
         String userAgent = "Mozilla/5.0";
-        String url = this.buildUrl("threatintelligenceplatform.com");
+        String url = this.buildUrl(domain);
 
         URL obj = new URL(url);
 
@@ -56,19 +50,7 @@ public class DomainReputationApi {
         }
         in.close();
 
-        return response.toString();
-    }
-
-    protected String buildUrl(String domain) {
-        StringBuffer url = new StringBuffer(DomainReputationApi.BASE_URL);
-        url.append("?");
-        url.append("apiKey=");
-        url.append(this.apiKey);
-        url.append("&domainName=");
-        url.append(domain);
-        url.append("&mode=full");
-
-        return url.toString();
+        return prettyJson(response.toString());
     }
 
     public void setApiKey(String apiKey)
@@ -76,7 +58,15 @@ public class DomainReputationApi {
         this.apiKey = apiKey;
     }
 
-    protected String getApiKey()
+    private String buildUrl(String domain) throws IOException
+    {
+        return DomainReputationApi.BASE_URL
+                + "?apiKey=" + URLEncoder.encode(getApiKey(), "UTF-8")
+                + "&domainName=" + URLEncoder.encode(domain, "UTF-8")
+                + "&mode=full";
+    }
+
+    private String getApiKey()
     {
         return this.apiKey;
     }
@@ -87,8 +77,7 @@ public class DomainReputationApi {
 
         JsonParser jp = new JsonParser();
         JsonElement je = jp.parse(jsonString);
-        String prettyJsonString = gson.toJson(je);
 
-        return prettyJsonString;
+        return gson.toJson(je);
     }
 }

@@ -5,9 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.threatintelligenceplatform</groupId>
-    <artifactId>domain-reputation-api</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>domain-reputation-api-sample</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
 
+    <name>domain-reputation-api-sample</name>
+    <description>Example of using the Domain Reputation API</description>
 
     <dependencies>
         <dependency>
